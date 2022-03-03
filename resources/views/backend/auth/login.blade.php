@@ -17,6 +17,7 @@
         <p style="color: red">{{\Illuminate\Support\Facades\Session::get('error')}}</p>
     @endif
     <button>Login</button>
+    <button type="button"><a href="{{route('showFormRegister')}}">Sign Up</a></button>
 </form>
 </body>
 </html>

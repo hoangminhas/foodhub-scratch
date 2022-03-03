@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('backend.layout.master');
 });
 
 Route::middleware('checkAuth')->group(function () {
@@ -47,4 +47,5 @@ Route::post('/register', [AuthController::class, 'register'])->name('register')-
 Route::get('/login', [AuthController::class, 'showFormLogin'])->name('showFormLogin');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
+//log out
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
