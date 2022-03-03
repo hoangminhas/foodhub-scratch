@@ -10,6 +10,7 @@
 <body>
 <h2>User List</h2>
 <a href="{{route('users.create')}}">Add user</a>
+<a href="{{route('logout')}}">logout</a>
 <table border="20">
     <thead>
     <tr>

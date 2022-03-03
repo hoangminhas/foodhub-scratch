@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,18 +19,32 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('/users')->group(function () {
-    //Show all users index
-    Route::get('/', [UserController::class, 'index'])->name('users.index');
-    //Show detail user
-    Route::get('/{id}/show', [UserController::class, 'show'])->name('users.show');
-    //Create new user
-    Route::get('/create', [UserController::class, 'create'])->name('users.create');
-    Route::post('/create', [UserController::class, 'store'])->name('users.store');
-    //Delete an user
-    Route::get('/{id}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
-    //Update a user
-    Route::get('/{id}/update', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('/{id}/update', [UserController::class, 'update'])->name('users.update');
+Route::middleware('checkAuth')->group(function () {
+
+    Route::prefix('/users')->group(function () {
+        //Show all users index
+        Route::get('/', [UserController::class, 'index'])->name('users.index');
+        //Show detail user
+        Route::get('/{id}/show', [UserController::class, 'show'])->name('users.show');
+        //Create new user
+        Route::get('/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/create', [UserController::class, 'store'])->name('users.store');
+        //Delete an user
+        Route::get('/{id}/destroy', [UserController::class, 'destroy'])->name('users.destroy');
+        //Update a user
+        Route::get('/{id}/update', [UserController::class, 'edit'])->name('users.edit');
+        Route::put('/{id}/update', [UserController::class, 'update'])->name('users.update');
+    });
 
 });
+
+
+//Register
+Route::get('/register', [AuthController::class, 'showFormRegister'])->name('showFormRegister');
+Route::post('/register', [AuthController::class, 'register'])->name('register')->middleware('checkRegister');
+
+//Login
+Route::get('/login', [AuthController::class, 'showFormLogin'])->name('showFormLogin');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
