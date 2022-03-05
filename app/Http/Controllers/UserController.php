@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Repositories\UserModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -9,9 +11,18 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     //
+    public $userModel;
+
+    public function __construct(UserModel $um)
+    {
+         $this->userModel = $um;
+    }
+
     public function index()
     {
-        $users = DB::table('users')->get();
+//        $users = DB::table('users')->get();
+        $users = User::all();
+//        $users = $this->userModel->getAll();
 //        dd($users);
         return view('backend.users.index', compact('users'));
     }

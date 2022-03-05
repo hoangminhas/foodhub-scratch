@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\FoodController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,7 @@ Route::get('/', function () {
 
 Route::middleware('checkAuth')->group(function () {
 
+    //crud users
     Route::prefix('/users')->group(function () {
         //Show all users index
         Route::get('/', [UserController::class, 'index'])->name('users.index');
@@ -34,6 +36,22 @@ Route::middleware('checkAuth')->group(function () {
         //Update a user
         Route::get('/{id}/update', [UserController::class, 'edit'])->name('users.edit');
         Route::put('/{id}/update', [UserController::class, 'update'])->name('users.update');
+    });
+
+    //crud food
+    Route::prefix('/food')->group(function () {
+        //Show all food index
+        Route::get('/', [FoodController::class, 'index'])->name('food.index');
+        //Show detail food
+        Route::get('/{id}/show', [FoodController::class, 'show'])->name('food.show');
+        //Create new food
+        Route::get('/create', [FoodController::class, 'create'])->name('food.create');
+        Route::post('/create', [FoodController::class, 'store'])->name('food.store');
+//        //Delete an food
+        Route::get('/{id}/destroy', [FoodController::class, 'destroy'])->name('food.destroy');
+//        //Update a food
+        Route::get('/{id}/update', [FoodController::class, 'edit'])->name('food.edit');
+        Route::put('/{id}/update', [FoodController::class, 'update'])->name('food.update');
     });
 
 });
