@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUser;
 use App\Models\User;
 use App\Repositories\UserModel;
 use Illuminate\Http\Request;
@@ -39,11 +40,16 @@ class UserController extends Controller
         return view('backend.users.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
+//        $this->validate($request, [
+//            'name'=> 'required',
+//            'email'=> 'required|unique:users',
+//            'password'=> 'required',
+//            'role_id'=> 'required'
+//        ]);
         $user = $request->except('_token');
         $user['password'] = Hash::make($user['password']);
-//        dd($user);
         DB::table('users')->insert($user);
         return redirect()->route('users.index');
     }

@@ -18,6 +18,18 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $validation = $request->validate([
+            'name'=>'bail|required',
+           'email'=>'bail|required|email|unique:users',
+           'password'=>'bail|required|min:6|max:20',
+            'confirmPassword'=>'bail|required|same:password',
+            'role_id'=>'bail|required'
+        ], [
+            'name.required' => 'heyyo you have to fill in this field OK!?',
+            'email.required'=> 'don\'t forget this you fuckin\' cow',
+            'password.required'=>'stupid!'
+        ]);
+
         $user = $request->except('_token', 'confirmPassword');
         $user['password'] = Hash::make($user['password']);
 //        dd($user);
